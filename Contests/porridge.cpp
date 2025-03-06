@@ -1,6 +1,4 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
+#include <bits/stdc++.h>
 
 using namespace std;
 
@@ -8,46 +6,31 @@ int main() {
     int n, q;
     cin >> n >> q;
 
-    vector<pair<int, int>> ran(n);
-
+    map<int, int> mp;
     for (int i = 0; i < n; i++) {
         int temp1, temp2;
         cin >> temp1 >> temp2;
-        ran[i] = make_pair(temp1, temp2);
+        mp[temp1]++;
+        mp[temp2 + 1]--;
     }
 
-    sort(ran.begin(), ran.end());
+    int ct = 0;
+    for (const auto& i : mp) {
+        ct += i.second;
+        mp[i.first] = ct;
+    }
 
     for (int i = 0; i < q; i++) {
         int temp;
         cin >> temp;
-
-        int lo = 0, hi = ran.size() - 1;
-        while (lo < hi) {
-            int mid = (lo + hi) / 2;
-            if (ran[mid].first > temp) {
-                hi = mid - 1;
-            } else {
-                lo = mid + 1;
-            }
+        auto it = mp.upper_bound(temp);
+        if (it == mp.begin()) {
+            cout << 0 << endl;
+        } else {
+            it--;
+            cout << it->second << endl;
         }
-        if (ran[lo].first <= temp) lo++;
-
-        vector<pair<int, int>> e (ran.begin(), ran.begin() + lo);
-        sort(e.begin(), e.end(), [](auto &left, auto &right) {
-            return left.second < right.second;
-        });
-
-        lo = 0, hi = e.size() - 1;
-        while (lo < hi) {
-            int mid = (lo + hi) / 2;
-            if (e[mid].second > temp) {
-                hi = mid - 1;
-            } else {
-                lo = mid + 1;
-            }
-        }
-        // if (e[hi].second >= temp) hi++;
-        // cout << e.size() - hi << endl;
     }
+
+    return 0;
 }

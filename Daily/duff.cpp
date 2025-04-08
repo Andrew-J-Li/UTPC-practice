@@ -1,22 +1,21 @@
 #include <bits/stdc++.h>
-
 using namespace std;
 
+const int maxn = 2e6 + 100;
+int a, cnt[maxn + 10];
+
 int main() {
+    std::ios::sync_with_stdio(false);
     int n; cin >> n;
-    map<int, int> mp;
-    for (int i = 0; i < n; ++i) {
-        int temp; cin >> temp;
-        mp[temp]++;
-    }
+    for (int i = 0; i < n; ++i) cin >> a, cnt[a]++;
     int rslt = 0;
-    for (auto& it : mp) {
-        if (it.second >= 2) { 
-            int val = it.second / 2;
-            it.second = it.second % 2;
-            mp[it.first + 1] += val;
+    for (int i = 0; i < maxn; ++i) {
+        if (cnt[i]) {
+            cnt[i + 1] += cnt[i] / 2;
+            cnt[i] %= 2;
+            if (cnt[i]) ++rslt;
         }
-        if (it.second == 1) rslt++;
     }
     cout << rslt << endl;
+    return 0;
 }

@@ -12,37 +12,19 @@ int main() {
     while (t--) {
         ll n; cin >> n;
         string s; cin >> s;
-        vector<ll> days;
+        ll sum = (n * (n + 1)) / 2;
+        ll u = 0;
+        ll curr = 1;
+        for (ll i = 2; i <= n; ++i) {
+            if (s[i - 1] == '0') { curr++; continue; }
+            if (curr >= 1) { u++; curr--; }
+            else curr++;
+        }
         for (ll i = n - 1; i >= 0; --i) {
-            if (s[i] == '1') days.push_back(i + 1);
+            if (u <= 0) break;
+            if (s[i] == '1') { sum -= i + 1; u--; }
         }
-        ll lo = 1, hi = n, rslt = 0, sub = 0, rem = 0;
-        for (ll i = 0; i < days.size(); ++i) {
-            if (lo > hi) break;
-            if (lo == hi) { rslt += lo; break; }
-            if (lo + 1 == hi) {
-                rslt += lo;
-                break;
-            }
-            ll nx = (i == days.size() - 1) ? 0 : days[i + 1];
-            if (nx == hi - 1) {
-                rslt += lo;
-                sub++;
-                rem += lo;
-                lo++;
-                hi--;
-                continue;
-            }
-            ll add = ((hi - 1 - nx) * (hi - nx)) / 2;
-            add += (hi - 1 - nx) * nx;
-            rslt += add;
-            lo -= min(sub, (hi - 1 - nx) - sub);
-            rslt -= rem;
-            hi = nx;
-            sub = 0;
-            rem = 0;
-        }
-        cout << rslt << endl;
+        cout << sum << endl;
     }
     return 0;
 }

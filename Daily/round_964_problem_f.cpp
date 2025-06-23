@@ -43,8 +43,8 @@ int main() {
         }
         ll rslt = 0;
         for (ll i = (k / 2) + 1; i <= min(ct, k); ++i) {
-            ll curr = nCk (ct, i);
             if (n - ct < k - i) continue;
+            ll curr = nCk (ct, i);
             curr = (curr * nCk(n - ct, k - i)) % MOD;
             rslt = (rslt + curr) % MOD;
         }

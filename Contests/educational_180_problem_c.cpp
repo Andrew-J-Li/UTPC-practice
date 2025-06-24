@@ -18,21 +18,8 @@ int main() {
         sort (nums.begin(), nums.end());
         for (ll i = 0; i < n; ++i) {
             for (ll j = i + 1; j < n; ++j) {
-                ll curr = nums[i] + nums[j];
-                ll lo = 0, hi = n - 1, idx = -1;
-                while (lo <= hi) {
-                    ll mid = (lo + hi) / 2;
-                    if (curr > nums[mid]) {
-                        idx = mid;
-                        lo = mid + 1;
-                    } else {
-                        hi = mid - 1;
-                    }
-                }
-                if (nums[i] + nums[idx] < nums[j] || curr + nums[j] <= nums[n - 1]) continue;
-                cout << idx << endl;
-                rslt += idx - 2;
-
+                if (j == n - 1) continue;
+                if (nums[i] + nums[j] > nums[n - 1]) rslt++;
             }
         }
         cout << rslt << endl;
